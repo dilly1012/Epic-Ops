@@ -1,0 +1,4 @@
+requests>=2.31
+supabase>=2.5
+streamlit>=1.40
+pandas>=2.0

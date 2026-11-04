@@ -1,0 +1,20 @@
+[project]
+name = "epic-ops"
+version = "0.1.0"
+description = "Companion app for Epic Pickleball: Epic Rating, level placement and programming reports on top of CourtReserve."
+requires-python = ">=3.11"
+dependencies = [
+  "requests>=2.31",
+  "supabase>=2.5",
+  "streamlit>=1.40",
+  "pandas>=2.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+include = ["epic_ops*", "sample*", "app*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

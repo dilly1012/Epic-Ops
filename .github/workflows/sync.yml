@@ -1,0 +1,22 @@
+name: CourtReserve sync
+
+on:
+  schedule:
+    - cron: "*/10 * * * *" # every 10 minutes (GitHub may run it a few minutes late)
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install .
+      - run: python -m scripts.sync
+        env:
+          COURTRESERVE_USERNAME: ${{ secrets.COURTRESERVE_USERNAME }}
+          COURTRESERVE_PASSWORD: ${{ secrets.COURTRESERVE_PASSWORD }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
