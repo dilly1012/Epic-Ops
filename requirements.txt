@@ -1,4 +1,5 @@
 requests>=2.31
 supabase>=2.5
-streamlit>=1.40
+streamlit>=1.40,<1.57  # 1.57+ (uvicorn server) fails behind Streamlit Cloud proxy: random 500s on static files
+pyarrow<25  # pyarrow 26 has a known segfault (apache/arrow#50471)
 pandas>=2.0
