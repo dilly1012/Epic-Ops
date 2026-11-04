@@ -34,14 +34,16 @@ pytest                                # 38 tests
 python -m scripts.demo                # the same loop, printed in the terminal
 ```
 
-### Put it online (free)
+### Put it online (free, on Render)
 
-1. Push this folder to a GitHub repo. It can be private.
-2. At https://share.streamlit.io, choose **Create app**, pick the repo, and set the main file to `app/streamlit_app.py`.
-3. Under **Advanced settings > Secrets**, add `app_password = "something only staff know"`, so the app asks for a password.
-4. Share the link with staff. On the free plan, the app sleeps when no one uses it and takes about 30 seconds to wake up.
+1. Push this folder to a private GitHub repo (it's `dilly1012/Epic-Ops`).
+2. At https://render.com choose **New > Blueprint** and pick the repo. Render reads `render.yaml` (free Python web service, Python 3.12, health check).
+3. When asked, set **APP_PASSWORD** to the staff password. It lives only in Render's dashboard, never in git.
+4. Share the `onrender.com` link with staff only. The free plan sleeps after 15 minutes idle and takes about a minute to wake, so open it a few minutes before you need it.
 
-Without `app_password` the app is open to anyone with the link, which is only OK on your own computer.
+Without a password the app is open to anyone with the link, which is only OK on your own computer. Locally, put `app_password = "..."` in `.streamlit/secrets.toml` (git-ignored).
+
+**Why not Streamlit Community Cloud:** we tried it first (Nov 2026). That deployment dropped about 1 in 5 parallel requests, so the page usually hung on a spinner. The app also still pins `streamlit<1.57` and `pyarrow<25` from that attempt. The code still reads `app_password` from Streamlit secrets, so Streamlit Cloud works if you want to retry it.
 
 ## Connect to CourtReserve (Phase 1, read only)
 
