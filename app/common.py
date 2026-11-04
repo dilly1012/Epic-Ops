@@ -1,16 +1,24 @@
 import hmac
+import os
+from collections.abc import Mapping
 
 import streamlit as st
 
 from epic_ops.state import SampleState
 
 
+def resolve_password(secrets: Mapping, env: Mapping) -> str | None:
+    """`app_password` from Streamlit secrets wins; otherwise the APP_PASSWORD env var (Render, Docker)."""
+    return secrets.get("app_password") or env.get("APP_PASSWORD") or None
+
+
 def require_login() -> None:
-    """Simple shared password. Set `app_password` in .streamlit/secrets.toml (or the host's secrets).
+    """Simple shared password. Set `app_password` in .streamlit/secrets.toml (Streamlit Cloud)
+    or the APP_PASSWORD environment variable (Render and other hosts).
 
     With no password set, the app is open, which is fine for trying it locally.
     """
-    password = st.secrets.get("app_password") if _has_secrets() else None
+    password = resolve_password(st.secrets if _has_secrets() else {}, os.environ)
     if not password or st.session_state.get("signed_in"):
         return
     st.title("Epic Ops")

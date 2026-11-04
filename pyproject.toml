@@ -19,3 +19,4 @@ include = ["epic_ops*", "sample*", "app*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]  # find epic_ops/app/sample even if macOS hides the editable .pth

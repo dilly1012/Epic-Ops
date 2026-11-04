@@ -54,3 +54,19 @@ def test_monday_list_done_applies_level():
     at.button[0].click()
     at.run()
     assert not s.preview_level_changes()
+
+
+def test_password_from_streamlit_secrets_wins():
+    from app.common import resolve_password
+    assert resolve_password({"app_password": "from-secrets"}, {"APP_PASSWORD": "from-env"}) == "from-secrets"
+
+
+def test_password_from_env_when_no_secrets():
+    from app.common import resolve_password
+    assert resolve_password({}, {"APP_PASSWORD": "from-env"}) == "from-env"
+
+
+def test_no_password_means_open():
+    from app.common import resolve_password
+    assert resolve_password({}, {}) is None
+    assert resolve_password({"app_password": ""}, {"APP_PASSWORD": ""}) is None

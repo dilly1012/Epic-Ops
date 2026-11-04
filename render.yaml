@@ -1,0 +1,14 @@
+# Render Blueprint: New > Blueprint, pick this repo. Render asks for APP_PASSWORD once.
+services:
+  - type: web
+    name: epic-ops
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run app/streamlit_app.py --server.port $PORT --server.address 0.0.0.0
+    healthCheckPath: /_stcore/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12"
+      - key: APP_PASSWORD
+        sync: false  # staff password; set in the Render dashboard, never in git
